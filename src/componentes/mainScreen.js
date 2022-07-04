@@ -8,11 +8,14 @@ import React from 'react'
 import { v4 as uuid } from 'uuid';
 
 import UserContext from "./UserContext";
+import logout from "./../assets/imgs/logout.png";
+
+let saldo = 0;
 
 export default function MainScreen() {
     const { userData, setUserData } = useContext(UserContext);
     const { userName, setUserName } = useContext(UserContext);
-	const [posts, setPosts] = useState(undefined);
+    const [posts, setPosts] = useState(undefined);
     const config = {
         headers: {
             "Authorization": `Bearer ${userData}`
@@ -24,8 +27,17 @@ export default function MainScreen() {
         requisicao.then((response) => {
             setPosts(response.data);
             console.log(response.data);
+            if (posts) {
+                posts.forEach(lancamento => {
+                    if (lancamento.type === "entrada") {
+                        saldo += lancamento.post;
+                    } else if (lancamento.type === "saida") {
+                        saldo -= lancamento.post;
+                    }
+                });
+            }
         });
-    
+
         requisicao.catch((err) => {
             console.log(err);
             alert(err);
@@ -34,18 +46,27 @@ export default function MainScreen() {
 
     return posts ? (
         <Fullscreen>
-            <h1>Olá {userName}</h1>
+            <Header>
+                <h1>Olá {userName}</h1>
+                <Link to="/">
+                    <img src={logout} />
+                </Link>
+            </Header>
             <Lancamentos>
                 <ul>
-                    {posts.map(post => <li key={uuid()} >{post.date}, {post.titulo}, {post.post}</li>)}
+                    {posts.map(post => <li key={uuid()} ><span>{post.date}</span><em>{post.titulo}</em><Value type={post.type}>{post.post}</Value></li>)}
                 </ul>
+                <LastLine>
+                    <h2>SALDO:</h2>
+                    <h3>{saldo}</h3>
+                </LastLine>
             </Lancamentos>
             <Container>
                 <Link to="/lancamentoEntrada">
-                    <Input><p>Nova entrada</p></Input>
+                    <Input><p>Nova <br></br> entrada</p></Input>
                 </Link>
                 <Link to="/lancamentoSaida">
-                    <Input><p>Nova saída</p></Input>
+                    <Input><p>Nova <br></br> saída</p></Input>
                 </Link>
             </Container>
         </Fullscreen>
@@ -64,23 +85,66 @@ const Fullscreen = styled.div`
         font-size: 32px;
         font-weight: 700;
         font-style: bold;
-        margin-bottom: 24px;
+        margin-bottom: 10px;
     }
+`;
+
+const Value = styled.div`
+    color: ${props => (props.type === "entrada") ? "#03AC00" : "#C70000"};
+`;
+
+const LastLine = styled.div`
+    display: flex;
+    justify-content: space-between;
+    color: black;
+
+    h2 {
+       font-weight: 900;
+    }
+
+    h3 {
+        padding-left: 230px;
+        color: ${(saldo >= 0) ? "#03AC00" : "#C70000"}; 
+    }
+
 `;
 
 const Lancamentos = styled.div`
     margin-top: 29px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between;
+    align-items: flex-start;
     background-color: white;
     color: black;
     height: 70vh;
     width: 90vw;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    font-size: 20px;
+    border-radius: 5px;
+
+    ul {
+        width: 80vw;
+    }
+
+    em, strong {
+        padding-left: 10px;
+    }
+
+    span {
+        color: #C6C6C6;
+    }
 
     p {
         color: black;
+    }
+
+    li {
+        padding-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
     }
 `;
 
@@ -92,14 +156,35 @@ const Container = styled.div`
     background-color: #8C11BE;
     width: 90vw;
     margin-top: 13px;
+
+    a:link {
+        text-decoration: none;
+        color: white;
+    }
 `;
 
 const Input = styled.div`
+    border-radius: 5px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    width: 156px;
+    width: 170px;
     height: 114px;
     background-color: #A328D6;
     text-align: center;
+    color: white;
+    font-weight: 900;
+    font-size: large;
+    padding-left: 15px;
+    padding-top: 50px;
+`;
+
+const Header = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    img {
+        padding-left: 200px;
+    }
 `;

@@ -69,12 +69,13 @@ export default function LancamentoSaida() {
     );
 }
 
-const Fullscreen = styled.div`
-    margin-top: 29px;
+const Logo = styled.div`
+    margin-top: 30px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    margin-bottom: 30px;
 
     h1 {
         color: white;
@@ -85,21 +86,11 @@ const Fullscreen = styled.div`
     }
 `;
 
-const Logo = styled.div`
-    margin-top: 30;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 30px;
-`;
-
 const Form = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 100px;
 
     input {
         border-width: 1px;
