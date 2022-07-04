@@ -20,7 +20,7 @@ export default function MainScreen() {
     }
 
     useEffect(() => {
-        const requisicao = axios.get("http://localhost:5000/posts", config);
+        const requisicao = axios.get("https://back-end-my-wallet000.herokuapp.com/posts", config);
         requisicao.then((response) => {
             setPosts(response.data);
             console.log(response.data);

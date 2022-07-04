@@ -31,7 +31,7 @@ export default function LancamentoEntrada() {
 
         setLoading(true);
 
-        const requisicao = axios.post("http://localhost:5000/posts", {
+        const requisicao = axios.post("https://back-end-my-wallet000.herokuapp.com/posts", {
             titulo,
             post,
             type,

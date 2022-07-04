@@ -21,7 +21,7 @@ export default function Cadastro () {
 
         setLoading(true);
 
-            const requisicao = axios.post("http://localhost:5000/cadastrar", {
+            const requisicao = axios.post("https://back-end-my-wallet000.herokuapp.com/cadastrar", {
                 name: nome,
                 email: email,
                 password: senha,
