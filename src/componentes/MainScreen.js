@@ -33,6 +33,11 @@ export default function MainScreen() {
     return posts ? (
         <Fullscreen>
             <h1>Olá {userName}</h1>
+            <Lancamentos>
+                {
+                    posts ? <p>{posts}</p> : <p>Não há registros de entrada ou saída</p>
+                }
+            </Lancamentos>
         </Fullscreen>
     ) : "Carregando...";
 }
@@ -44,10 +49,6 @@ const Fullscreen = styled.div`
     justify-content: center;
     align-items: center;
 
-    a:link {
-        text-decoration: none;
-    }
-
     h1 {
         color: white;
         font-size: 32px;
@@ -55,4 +56,16 @@ const Fullscreen = styled.div`
         font-style: bold;
         margin-bottom: 24px;
     }
+`;
+
+const Lancamentos = styled.div`
+    margin-top: 29px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color: black;
+    height: 70vh;
+    width: 90vw;
 `;

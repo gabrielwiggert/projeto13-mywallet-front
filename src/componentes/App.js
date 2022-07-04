@@ -4,7 +4,9 @@ import { useContext } from "react";
 
 import Login from "./Login";
 import Cadastro from "./Cadastro";
-import MainScreen from "./MainScreen";
+import MainScreen from "./mainScreen";
+import LancamentoEntrada from "./LancamentoEntrada";
+import LancamentoSaida from "./LancamentoSaida";
 import UserContext from "./UserContext";
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />
           <Route path="/mainScreen" element={<MainScreen />} />
+          <Route path="/lancamentoEntrada" element={<LancamentoEntrada />} />
+          <Route path="/lancamentoSaida" element={<LancamentoSaida />} />
       </Routes>
     </BrowserRouter>
     </UserContext.Provider>
