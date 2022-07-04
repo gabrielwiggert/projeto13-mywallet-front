@@ -9,8 +9,9 @@ import React from 'react'
 import UserContext from "./UserContext";
 
 export default function MainScreen() {
-    const [subscriptionsData, setSubscriptionsData] = useState(false);
     const { userData, setUserData } = useContext(UserContext);
+    const { userName, setUserName } = useContext(UserContext);
+	const [posts, setPosts] = useState(null);
     const config = {
         headers: {
             "Authorization": `Bearer ${userData}`
@@ -18,10 +19,9 @@ export default function MainScreen() {
     }
 
     useEffect(() => {
-        const requisicao = axios.get("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships", config);
+        const requisicao = axios.get("http://localhost:5000/posts", config);
         requisicao.then((response) => {
-            console.log(response.data);
-            setSubscriptionsData(response.data);
+            setPosts(response.data);
         });
     
         requisicao.catch((err) => {
@@ -30,52 +30,12 @@ export default function MainScreen() {
         });
     }, []);
 
-    return subscriptionsData ? (
+    return posts ? (
         <Fullscreen>
-            <h1>Escolha seu Plano</h1>
-
-            <Link to={`/subscriptions/${subscriptionsData[0].id}`}>
-                <Plano>
-                    <img src={subscriptionsData[0].image} />
-                    <h2>R$ {subscriptionsData[0].price}</h2>
-                </Plano>
-            </Link>
-
-            <Link to={`/subscriptions/${subscriptionsData[1].id}`}>
-                <Plano>
-                    <img src={subscriptionsData[1].image} />
-                    <h2>R$ {subscriptionsData[1].price}</h2>
-                </Plano>
-            </Link>
-
-            <Link to={`/subscriptions/${subscriptionsData[2].id}`}>
-                <Plano>
-                    <img src={subscriptionsData[2].image} />
-                    <h2>R$ {subscriptionsData[2].price}</h2>
-                </Plano>
-            </Link>
+            <h1>Olá {userName}</h1>
         </Fullscreen>
     ) : "Carregando...";
 }
-
-const Plano = styled.div`
-    margin-bottom: 10px;
-    height: 180px;
-    width: 290px;
-    border: 3px solid #7E7E7E;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    padding: 16px;
-    h2 {
-        font-size: 24px;
-        color: white;
-        font-weight: 700;
-        font-style: bold;
-        margin-bottom: 24px;
-    }
-`;
 
 const Fullscreen = styled.div`
     margin-top: 29px;
